@@ -120,4 +120,5 @@ Any modern browser — Chrome, Firefox, Safari, Edge. No polyfills required.
 
 ## Licence
 
-MIT — free to use, modify, and distribute.
+This project is licensed under the GNU General Public License v3.0 (GPL-3.0).
+You are free to use, copy, modify, and distribute this software, but any distributed versions — including modified versions — must also be released under the GPL-3.0 and include the original source code.
