@@ -1,0 +1,1451 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ceiniog</title>
+
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined&display=block" />
+
+    <style>
+        :root {
+          --color-background: #f4f4f4;
+          --color-white: #ffffff;
+          --color-text-secondary: #555;
+          --color-border-light: #ddd;
+          --color-background-light: #f9f9f9;
+          --color-button-background: #ccc;
+          --color-button-hover: #888;
+          --color-table-header: #f2f2f2;
+          --color-text-primary: #333;
+          --color-black: #000;
+          --gradient-color-1: #00c9a7;
+          --gradient-color-2: #00b4db;
+          --gradient-color-3: #0083b0;
+        }
+
+        .dark-theme {
+          --color-background: #1a1a1a;
+          --color-white: #2d2d2d;
+          --color-text-secondary: #ccc;
+          --color-border-light: #444;
+          --color-background-light: #333;
+          --color-button-background: #555;
+          --color-button-hover: #777;
+          --color-table-header: #444;
+          --color-text-primary: #f0f0f0;
+          --color-black: #fff;
+        }
+
+        body {
+          font-family: Arial, sans-serif;
+          margin: 0;
+          padding: 0;
+          background-color: var(--color-background);
+          color: var(--color-text-primary);
+        }
+
+        .container {
+          padding: 1.25rem;
+          max-width: 800px;
+          margin: 0 auto;
+          background-color: var(--color-white);
+          border-radius: 5px;
+          box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .inner-container {
+          display: flex;
+          flex-wrap: wrap;
+          gap: 20px;
+          margin-bottom: 20px;
+        }
+
+        .logo-container {
+          display: flex;
+          align-items: center;
+          gap: 10px;
+        }
+
+        .logo {
+          width: 40px;
+          height: 40px;
+        }
+
+        #page-title {
+          margin: 0;
+          font-size: 2em;
+          flex: 1;
+        }
+
+        /* Toggle Switch */
+        .theme-switch {
+          position: relative;
+          display: inline-block;
+          width: 60px;
+          height: 34px;
+        }
+
+        .theme-switch input {
+          opacity: 0;
+          width: 0;
+          height: 0;
+        }
+
+        .slider {
+          position: absolute;
+          cursor: pointer;
+          top: 0; left: 0; right: 0; bottom: 0;
+          background-color: var(--color-button-background);
+          transition: 0.4s;
+          border-radius: 34px;
+        }
+
+        .slider:before {
+          position: absolute;
+          content: "";
+          height: 26px;
+          width: 26px;
+          left: 4px;
+          bottom: 4px;
+          background-color: var(--color-white);
+          transition: 0.4s;
+          border-radius: 50%;
+        }
+
+        input:checked + .slider { background-color: var(--color-button-hover); }
+        input:checked + .slider:before { transform: translateX(26px); }
+
+        .slider .material-symbols-outlined {
+          position: absolute;
+          top: 50%;
+          transform: translateY(-50%);
+          font-size: 16px;
+          color: var(--color-text-primary);
+          transition: opacity 0.3s;
+        }
+
+        .slider .sun-icon  { left: 7.5px;  opacity: 1; }
+        .slider .moon-icon { right: 7.5px; opacity: 0; }
+        input:checked + .slider .sun-icon  { opacity: 0; }
+        input:checked + .slider .moon-icon { opacity: 1; }
+
+        /* Menu */
+        .menu-container {
+          display: flex;
+          align-items: center;
+          gap: 10px;
+          position: relative;
+          flex-shrink: 0;
+        }
+
+        .menu-btn {
+          background-color: var(--color-button-background);
+          color: var(--color-text-primary);
+          border: none;
+          border-radius: 4px;
+          padding: 8px;
+          cursor: pointer;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          transition: background-color 0.3s ease;
+        }
+
+        .menu-btn:hover { background-color: var(--color-button-hover); }
+
+        .slide-down-panel {
+          position: absolute;
+          top: calc(100% + 8px);
+          right: -8px;
+          background-color: var(--color-white);
+          border: 1px solid var(--color-border-light);
+          border-radius: 4px;
+          box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+          display: none;
+          flex-direction: column;
+          gap: 8px;
+          padding: 8px;
+          z-index: 1000;
+        }
+
+        .slide-down-panel.active { display: flex; }
+
+        .panel-btn {
+          background-color: var(--color-background-light);
+          color: var(--color-text-primary);
+          border: none;
+          border-radius: 4px;
+          padding: 8px;
+          cursor: pointer;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          transition: background-color 0.3s ease;
+        }
+
+        .panel-btn:hover { background-color: var(--color-button-hover); }
+
+        .clear-btn {
+          display: block;
+          width: 100%;
+          margin-top: 15px;
+          padding: 8px;
+          background-color: var(--color-button-background);
+          color: var(--color-text-primary);
+          border: none;
+          border-radius: 4px;
+          font-size: 14px;
+          cursor: pointer;
+          transition: background-color 0.3s ease;
+        }
+
+        .clear-btn:hover { background-color: var(--color-button-hover); color: var(--color-white); }
+
+        .flex-container {
+          display: flex;
+          flex-wrap: nowrap;
+          justify-content: space-between;
+          align-items: center;
+          gap: 10px;
+          margin-bottom: 15px;
+        }
+
+        .buttons-container {
+          display: flex;
+          align-items: center;
+          gap: 10px;
+          height: 100%;
+        }
+
+        /* font-variation-settings override for specific contexts */
+
+        .inputs-container,
+        .results-container {
+          flex: 1 1 45%;
+          padding: 15px;
+          border: 1px solid var(--color-border-light);
+          border-radius: 5px;
+          background-color: var(--color-background-light);
+          box-sizing: border-box;
+        }
+
+        .inputs-container h3,
+        .results-container h3 { margin-top: 0; }
+
+        .input-row {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          margin-bottom: 1px;
+        }
+
+        .input-row label {
+          flex: 0 0 50%;
+          font-weight: bold;
+          margin-right: 10px;
+          margin-bottom: 0;
+          padding: 10px;
+        }
+
+        .input-row input {
+          flex: 1;
+          padding: 8px;
+          font-size: 14px;
+          border: 1px solid var(--color-border-light);
+          border-radius: 4px;
+          min-width: 0;
+          background-color: var(--color-background-light);
+          color: var(--color-text-primary);
+          transition: border-color 0.3s, background-color 0.3s;
+        }
+
+        .coin-set-label {
+          font-size: 0.9em;
+          color: var(--color-text-secondary);
+          text-align: center;
+          width: 60px;
+          margin: 5px 0 0 auto;
+          padding: 5px;
+          border: 1px solid var(--color-border-light);
+          border-radius: 3px;
+          background-color: var(--color-background-light);
+        }
+
+        .coin-table .material-symbols-outlined {
+          font-size: 1.175em;
+          vertical-align: middle;
+          line-height: 1;
+          font-variation-settings: 'wght' 600;
+        }
+
+        .labels-container {
+          display: flex;
+          justify-content: flex-end;
+          gap: 10px;
+          margin-bottom: 8px;
+        }
+
+        .language-label,
+        .currency-label {
+          padding: 5px 10px;
+          border: 1px solid var(--color-border-light);
+          border-radius: 5px;
+          background-color: var(--color-background-light);
+          font-size: 0.9em;
+          color: var(--color-text-secondary);
+          text-align: center;
+          align-items: center;
+          gap: 5px;
+          width: fit-content;
+          min-width: 4em;
+          max-width: 10em;
+          white-space: nowrap;
+          display: flex;
+        }
+
+        .coin-table {
+          width: 100%;
+          border-collapse: collapse;
+          margin-top: 20px;
+        }
+
+        .coin-table th,
+        .coin-table td {
+          padding: 10px;
+          text-align: left;
+          border: 1px solid var(--color-border-light);
+          width: 33%;
+        }
+
+        .coin-table th:nth-child(2),
+        .coin-table td:nth-child(2) { text-align: center; }
+
+        .coin-table td:nth-child(3),
+        .coin-table th:nth-child(3),
+        .coin-table tr:last-child td:last-child { text-align: right; }
+
+        .coin-table th { background-color: var(--color-table-header); }
+
+        /* Overlays */
+        .overlay {
+          display: none;
+          position: fixed;
+          top: 0; left: 0;
+          width: 100%; height: 100%;
+          background-color: rgba(0, 0, 0, 0.7);
+          z-index: 1000;
+          justify-content: center;
+          align-items: center;
+        }
+
+        .overlay-content {
+          background-color: var(--color-white);
+          padding: 0 20px 20px 20px;
+          border-radius: 8px;
+          width: 90%;
+          max-width: 800px;
+          margin: 0 auto;
+          max-height: 80vh;
+          overflow-y: auto;
+          position: relative;
+        }
+
+        .overlay-content button,
+        .print-btn {
+          display: inline-block;
+          width: 40px;
+          height: 40px;
+          border-radius: 50%;
+          background-color: var(--color-button-background);
+          color: var(--color-white);
+          font-size: 24px;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          cursor: pointer;
+          margin-top: 20px;
+          margin-bottom: 20px;
+          transition: background-color 0.3s ease;
+          border: 0;
+        }
+
+        .print-btn:hover { background-color: var(--color-button-hover); }
+
+        .faq-item { margin-bottom: 20px; }
+
+        .overlay-content .faq-question {
+          width: 100%;
+          padding: 10px 0;
+          text-align: left;
+          font-size: 1.1em;
+          color: var(--color-text-primary);
+          font-weight: bold;
+          background: none;
+          border: none;
+          cursor: pointer;
+          transition: color 0.3s;
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          min-height: 40px;
+        }
+
+        .faq-question .material-symbols-outlined {
+          margin-left: 10px;
+          transition: transform 0.3s;
+        }
+
+        .faq-question.active .material-symbols-outlined { transform: rotate(180deg); }
+
+        .faq-item:not(:last-child) {
+          border-bottom: 1px solid var(--color-border-light);
+          padding-bottom: 20px;
+        }
+
+        .faq-answer {
+          padding: 10px 0;
+          max-height: 0;
+          overflow: hidden;
+          visibility: hidden;
+          transition: max-height 0.3s ease-out, padding 0.3s ease-out, visibility 0.3s ease-out;
+        }
+
+        .faq-answer.active {
+          padding: 10px;
+          max-height: 500px;
+          visibility: visible;
+        }
+
+        .faq-question,
+        .faq-answer {
+          word-wrap: break-word;
+          white-space: normal;
+        }
+
+        .faq-header {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          position: sticky;
+          top: 0;
+          background-color: var(--color-white);
+          z-index: 1;
+          padding: 20px 20px 10px 20px;
+          margin: 0 -20px;
+        }
+
+        .faq-header h3#faq-title {
+          flex: 1;
+          text-align: left;
+          margin-top: 20px;
+        }
+
+        .faq-header #close-faq-btn {
+          margin-bottom: 20px;
+          margin-left: auto;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        }
+
+        .settings-content {
+          display: flex;
+          flex-wrap: wrap;
+          gap: 20px;
+          margin-top: 20px;
+        }
+
+        .settings-section {
+          flex: 1;
+          min-width: 250px;
+          padding: 15px;
+          border: 1px solid var(--color-border-light);
+          border-radius: 5px;
+          background-color: var(--color-background-light);
+        }
+
+        .section-heading {
+          display: flex;
+          align-items: center;
+          gap: 10px;
+          margin-bottom: 15px;
+          font-size: 1.2em;
+          font-weight: bold;
+        }
+
+        #language-buttons,
+        #currency-buttons {
+          display: flex;
+          flex-wrap: wrap;
+          gap: 10px;
+          justify-content: flex-end;
+          padding-left: 20px;
+        }
+
+        .overlay-content .language-btn,
+        .overlay-content .coin-set-button {
+          font-size: 0.9em;
+          color: var(--color-text-secondary);
+          text-align: center;
+          padding: 5px 10px;
+          margin: 5px;
+          border: 1px solid var(--color-border-light);
+          border-radius: 5px;
+          background-color: var(--color-button-background);
+          cursor: pointer;
+          transition: background-color 0.3s, box-shadow 0.3s;
+          width: 60px;
+          height: 40px;
+          aspect-ratio: 3 / 2;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          background-size: cover;
+          background-position: center;
+        }
+
+        .overlay-content .language-btn:hover,
+        .overlay-content .coin-set-button:hover {
+          color: var(--color-white);
+          background-color: var(--color-button-hover);
+          box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .overlay-content .language-btn-selected,
+        .overlay-content .coin-set-button-selected {
+          font-size: 0.9em;
+          color: var(--color-white);
+          text-align: center;
+          padding: 5px 10px;
+          margin: 5px;
+          border: 0;
+          border-radius: 5px;
+          background-color: var(--color-button-hover);
+          cursor: default;
+          box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+          width: 60px;
+          height: 40px;
+          aspect-ratio: 3 / 2;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          background-size: cover;
+          background-position: center;
+        }
+
+        /* Signature */
+        .signature-container {
+          width: 100%;
+          max-width: 800px;
+          margin: 20px auto 0;
+        }
+
+        .signature-block {
+          display: flex;
+          flex-wrap: wrap;
+          gap: 20px;
+        }
+
+        .signature-block > div {
+          flex: 1;
+          min-width: 200px;
+        }
+
+        .signature-block label {
+          font-weight: bold;
+          margin-bottom: 5px;
+          display: block;
+        }
+
+        .signature-box {
+          width: 100%;
+          height: 60px;
+          border: 1px solid var(--color-border-light);
+          border-radius: 4px;
+          box-sizing: border-box;
+        }
+
+        /* Responsive */
+        @media (max-width: 600px) {
+          .settings-section { flex: 1 1 100%; }
+          .logo { width: 60px; height: 60px; }
+          #page-title { display: none; }
+        }
+
+        /* Print */
+        @media print {
+          .overlay { display: none; align-items: flex-start; }
+          .results-container, .buttons-container { display: none; }
+
+          .overlay-content {
+            background-color: var(--color-white);
+            box-shadow: none;
+            padding: 0;
+            margin: 0;
+            width: 100% !important;
+            max-width: none;
+            overflow: visible;
+          }
+
+          .overlay-content button, .print-btn { display: none; }
+
+          .coin-table { width: 100%; border-collapse: collapse; }
+
+          .coin-table th,
+          .coin-table td {
+            padding: 10px;
+            text-align: left;
+            border: 1px solid var(--color-border-light);
+          }
+
+          td:last-child, th:last-child { text-align: right; }
+          .coin-table th { background-color: var(--color-table-header); }
+
+          body { background-color: var(--color-white); }
+
+          .container { box-shadow: none; margin: 0; padding: 0; display: none; }
+
+          :root {
+            --gradient-color-1: #b3b3b3;
+            --gradient-color-2: #808080;
+            --gradient-color-3: #4d4d4d;
+          }
+        }
+
+        @media print and (max-width: 120mm) {
+          @page { margin: 5mm; }
+          body { font-size: 4vw; }
+          .coin-table { font-size: 4vw; }
+          .coin-table, .coin-table th, .coin-table td { padding: 2px; }
+          .signature-box { height: 50px; }
+        }
+
+        @media print and (max-width: 80mm) {
+          @page { margin: 2mm; }
+
+          body { color: var(--color-black); font-size: 7.5vw; }
+          .coin-table { color: var(--color-black); font-size: 7.5vw; }
+          .coin-table, .coin-table th, .coin-table td { border: none; }
+          .coin-table { border-collapse: collapse; }
+          .coin-table tr:first-child { border-bottom: 2px solid var(--color-black) !important; }
+          .coin-table tbody tr:last-child { border-top: 2px solid var(--color-black); }
+
+          .overlay { position: static; }
+
+          .signature-box {
+            border: none;
+            border-bottom: 2px solid var(--color-black);
+            border-radius: 0;
+            background: none;
+            box-shadow: none;
+          }
+
+          .logo-container {
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            width: 100%;
+          }
+
+          .logo-container .logo { width: 25%; height: auto; }
+          .logo-container h3#overlay-title { margin-top: 10px; font-size: 1.2em; width: 100%; }
+
+          :root {
+            --gradient-color-1: #000000;
+            --gradient-color-2: #000000;
+            --gradient-color-3: #000000;
+          }
+        }
+    </style>
+</head>
+<body>
+
+<!-- SVG Symbol Definition -->
+<svg style="display: none;">
+  <symbol id="logo" viewBox="0 0 24 24">
+    <path fill-rule="evenodd" d="M1 12C1 5.925 5.925 1 12 1s11 4.925 11 11-4.925 11-11 11S1 18.075 1 12zm12-6a1 1 0 1 0-2 0v1.1a5.002 5.002 0 0 0 0 9.8V18a1 1 0 1 0 2 0v-1.1c.98-.2 1.856-.685 2.536-1.364a1 1 0 1 0-1.415-1.415 3 3 0 1 1 0-4.243 1 1 0 1 0 1.415-1.414A4.993 4.993 0 0 0 13 7.1V6z" clip-rule="evenodd"/>
+  </symbol>
+</svg>
+
+<div class="container">
+  <div class="flex-container">
+
+    <!-- Logo and Page Title -->
+    <div class="logo-container">
+      <svg class="logo" width="40px" height="40px">
+        <defs>
+          <linearGradient id="logoGradient1" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%"   style="stop-color: var(--gradient-color-1);" />
+            <stop offset="50%"  style="stop-color: var(--gradient-color-2);" />
+            <stop offset="100%" style="stop-color: var(--gradient-color-3);" />
+          </linearGradient>
+        </defs>
+        <use href="#logo" fill="url(#logoGradient1)" />
+      </svg>
+      <h1 id="page-title"></h1>
+    </div>
+
+    <!-- Menu Button and Slide-Down Panel -->
+    <div class="menu-container">
+      <label class="theme-switch">
+        <input type="checkbox" id="theme-toggle">
+        <span class="slider">
+          <span class="material-symbols-outlined sun-icon">light_mode</span>
+          <span class="material-symbols-outlined moon-icon">dark_mode</span>
+        </span>
+      </label>
+
+      <button id="menu-button" class="menu-btn">
+        <span class="material-symbols-outlined">menu</span>
+      </button>
+
+      <div id="slide-down-panel" class="slide-down-panel">
+        <div id="printButton" onclick="showPrintOverlay()" class="panel-btn">
+          <span id="printIcon" class="material-symbols-outlined">print</span>
+        </div>
+        <button onclick="showFaqOverlay()" class="panel-btn">
+          <span class="material-symbols-outlined">help</span>
+        </button>
+        <button onclick="showSettingsOverlay()" class="panel-btn">
+          <span class="material-symbols-outlined">settings</span>
+        </button>
+      </div>
+    </div>
+
+  </div><!-- end .flex-container -->
+
+  <div class="inner-container">
+    <div id="inputs-container" class="inputs-container"></div>
+    <div class="results-container">
+      <h3 id="results-title"></h3>
+      <div id="results"></div>
+    </div>
+  </div>
+
+</div><!-- end .container -->
+
+<!-- Print Overlay -->
+<div id="print-overlay" class="overlay">
+  <div class="overlay-content">
+    <div class="faq-header">
+      <div class="logo-container">
+        <svg class="logo" width="40px" height="40px">
+          <defs>
+            <linearGradient id="logoGradient2" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%"   style="stop-color: var(--gradient-color-1);" />
+              <stop offset="50%"  style="stop-color: var(--gradient-color-2);" />
+              <stop offset="100%" style="stop-color: var(--gradient-color-3);" />
+            </linearGradient>
+          </defs>
+          <use href="#logo" fill="url(#logoGradient2)" />
+        </svg>
+        <h3 id="overlay-title">Coin Count</h3>
+      </div>
+      <div class="buttons-container">
+        <button id="reprint-btn" onclick="showPrintOverlay()">
+          <span class="material-symbols-outlined">print</span>
+        </button>
+        <button id="close-btn" class="close-btn" onclick="closePrintOverlay()">
+          <span class="material-symbols-outlined">close</span>
+        </button>
+      </div>
+    </div>
+    <div id="overlay-results"></div>
+    <p id="overlay-date"></p>
+    <div class="signature-container">
+      <div class="signature-block">
+        <div>
+          <label for="signature1" id="signature1-label">Name:</label>
+          <div class="signature-box" id="signature1"></div>
+        </div>
+        <div>
+          <label for="signature2" id="signature2-label">Signature:</label>
+          <div class="signature-box" id="signature2"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- FAQ Overlay -->
+<div id="faq-overlay" class="overlay">
+  <div class="overlay-content">
+    <div class="faq-header">
+      <h3 id="faq-title">FAQ</h3>
+      <button id="close-faq-btn" class="close-btn" onclick="closeFaqOverlay()">
+        <span class="material-symbols-outlined">close</span>
+      </button>
+    </div>
+    <div id="faq-content"></div>
+  </div>
+</div>
+
+<!-- Settings Overlay -->
+<div id="settings-overlay" class="overlay">
+  <div class="overlay-content">
+    <div class="faq-header">
+      <h3 id="settings-title">Settings</h3>
+      <button id="close-settings-btn" class="close-btn" onclick="closeSettingsOverlay()">
+        <span class="material-symbols-outlined">close</span>
+      </button>
+    </div>
+    <div class="settings-content">
+      <div class="settings-section" id="language-buttons-container">
+        <div class="section-heading">
+          <span class="material-symbols-outlined">language</span>
+          <span id="language-section-title">Language</span>
+        </div>
+        <div id="language-buttons"></div>
+      </div>
+      <div class="settings-section" id="currency-buttons-container">
+        <div class="section-heading">
+          <span class="material-symbols-outlined">universal_currency</span>
+          <span id="currency-section-title">Currency</span>
+        </div>
+        <div id="currency-buttons"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+    // ── FAQ data (embedded from faq.json) ──────────────────────────────────────
+    const FAQ_DATA = [
+        {
+            "id": 1,
+            "translations": {
+                "en": { "question": "What is Ceiniog?", "answer": "Ceiniog is a user-friendly app designed to help you calculate the total value of coins based on their weights. It's perfect for quickly counting the value of loose change or bulk coins." },
+                "cy": { "question": "Beth yw Ceiniog?", "answer": "Mae Ceiniog yn ap hawdd ei ddefnyddio sydd wedi'i gynllunio i'ch helpu i gyfrifo gwerth cyfanswm arian bathol yn seiliedig ar eu pwysau. Mae'n berffaith ar gyfer cyfrif gwerth arian sydd ar wasgar neu mewn swm mwy yn gyflym." },
+                "es": { "question": "¿Qué es Ceiniog?", "answer": "Ceiniog es una aplicación fácil de usar diseñada para ayudarte a calcular el valor total de las monedas según su peso. Es perfecta para contar rápidamente el valor de las monedas sueltas o a granel." },
+                "it": { "question": "Cos'è Ceiniog?", "answer": "Ceiniog è un'app user-friendly progettata per aiutarti a calcolare il valore totale delle monete in base al loro peso. È perfetta per contare rapidamente il valore di monete sparse o in grandi quantità." },
+                "fr": { "question": "Qu'est-ce que Ceiniog ?", "answer": "Ceiniog est une application conviviale conçue pour vous aider à calculer la valeur totale des pièces en fonction de leur poids. Elle est parfaite pour compter rapidement la valeur de la monnaie ou des pièces en vrac." },
+                "de": { "question": "Was ist Ceiniog?", "answer": "Ceiniog ist eine benutzerfreundliche App, die Ihnen hilft, den Gesamtwert von Münzen basierend auf ihrem Gewicht zu berechnen. Es ist perfekt, um den Wert von lose Münzen oder großen Mengen schnell zu zählen." }
+            }
+        },
+        {
+            "id": 2,
+            "translations": {
+                "en": { "question": "How do I use Ceiniog?", "answer": "Simply enter the weight of your coins in the input fields, and Ceiniog will automatically calculate the total value. You can also switch between different currencies and languages in the settings to customize your experience." },
+                "cy": { "question": "Sut mae defnyddio Ceiniog?", "answer": "Rhowch bwysau eich arian bathol yn y meysydd mewnbwn, a bydd Ceiniog yn cyfrifo'r gwerth cyfanswm yn awtomatig. Gallwch hefyd newid rhwng gwahanol arian cyfred ac ieithoedd yn y gosodiadau i bersonoli eich profiad." },
+                "es": { "question": "¿Cómo uso Ceiniog?", "answer": "Simplemente ingrese el peso de sus monedas en los campos de entrada, y Ceiniog calculará automáticamente el valor total. También puede cambiar entre diferentes monedas e idiomas en la configuración para personalizar su experiencia." },
+                "it": { "question": "Come uso Ceiniog?", "answer": "Inserisci semplicemente il peso delle tue monete nei campi di input, e Ceiniog calcolerà automaticamente il valore totale. Puoi anche passare da diverse valute e lingue nelle impostazioni per personalizzare la tua esperienza." },
+                "fr": { "question": "Comment utiliser Ceiniog ?", "answer": "Entrez simplement le poids de vos pièces dans les champs de saisie, et Ceiniog calculera automatiquement la valeur totale. Vous pouvez également changer de devise et de langue dans les paramètres pour personnaliser votre expérience." },
+                "de": { "question": "Wie verwende ich Ceiniog?", "answer": "Geben Sie einfach das Gewicht Ihrer Münzen in die Eingabefelder ein, und Ceiniog berechnet automatisch den Gesamtwert. Sie können auch zwischen verschiedenen Währungen und Sprachen in den Einstellungen wechseln, um Ihr Erlebnis anzupassen." }
+            }
+        },
+        {
+            "id": 3,
+            "translations": {
+                "en": { "question": "How should I weigh my coins?", "answer": "To ensure accurate results, use a scale that is accurate to 1 gram, such as a digital kitchen scale. Place your coins on the scale, record the weight, and enter it into Ceiniog." },
+                "cy": { "question": "Sut ddylwn i bwysau fy arian bathol?", "answer": "I sicrhau canlyniadau cywir, defnyddiwch raddfa sy'n gywir i 1 gram, fel graddfa gegin ddigidol. Rhowch eich arian bathol ar y raddfa, cofnodwch y pwysau, a'i nodi yn Ceiniog." },
+                "es": { "question": "¿Cómo debo pesar mis monedas?", "answer": "Para garantizar resultados precisos, use una báscula precisa hasta 1 gramo, como una báscula de cocina digital. Coloque sus monedas en la báscula, registre el peso e ingréselo en Ceiniog." },
+                "it": { "question": "Come devo pesare le mie monete?", "answer": "Per garantire risultati accurati, usa una bilancia precisa fino a 1 grammo, come una bilancia da cucina digitale. Metti le tue monete sulla bilancia, registra il peso e inseriscilo in Ceiniog." },
+                "fr": { "question": "Comment dois-je peser mes pièces ?", "answer": "Pour des résultats précis, utilisez une balance précise à 1 gramme près, comme une balance de cuisine numérique. Placez vos pièces sur la balance, enregistrez le poids et saisissez-le dans Ceiniog." },
+                "de": { "question": "Wie sollte ich meine Münzen wiegen?", "answer": "Um genaue Ergebnisse zu erzielen, verwenden Sie eine Waage, die auf 1 Gramm genau ist, wie eine digitale Küchenwaage. Legen Sie Ihre Münzen auf die Waage, notieren Sie das Gewicht und geben Sie es in Ceiniog ein." }
+            }
+        },
+        {
+            "id": 4,
+            "translations": {
+                "en": { "question": "How accurate is Ceiniog?", "answer": "Ceiniog uses standard coin weights to calculate values, so it's highly accurate as long as your input weights are correct. Always double-check your inputs for the best results." },
+                "cy": { "question": "Pa mor gywir yw Ceiniog?", "answer": "Mae Ceiniog yn defnyddio pwysau safonol arian bathol i gyfrifo gwerthoedd, felly mae'n hynod gywir cyn belled â bod eich mewnbynnau pwysau yn gywir. Gwiriwch eich mewnbynnau bob amser er mwyn sicrhau'r canlyniadau gorau." },
+                "es": { "question": "¿Qué tan preciso es Ceiniog?", "answer": "Ceiniog utiliza pesos estándar de monedas para calcular los valores, por lo que es muy preciso siempre que los pesos que ingreses sean corrects. Siempre verifica tus entradas para obtener los mejores resultados." },
+                "it": { "question": "Quanto è preciso Ceiniog?", "answer": "Ceiniog utilizza pesi standard delle monete per calcolare i valori, quindi è molto preciso purché i pesi inseriti siano corretti. Controlla sempre i tuoi input per ottenere i migliori risultati." },
+                "fr": { "question": "Quelle est la précision de Ceiniog ?", "answer": "Ceiniog utilise des poids de pièces standard pour calculer les valeurs, il est donc très précis tant que les poids que vous saisissez sont corrects. Vérifiez toujours vos entrées pour obtenir les meilleurs résultats." },
+                "de": { "question": "Wie genau ist Ceiniog?", "answer": "Ceiniog verwendet Standard-Münzgewichte zur Berechnung der Werte und ist daher sehr genau, solange Ihre eingegebenen Gewichte korrekt sind. Überprüfen Sie Ihre Eingaben immer, um die besten Ergebnisse zu erzielen." }
+            }
+        },
+        {
+            "id": 5,
+            "translations": {
+                "en": { "question": "Can I change the language and currency in Ceiniog?", "answer": "Yes! Ceiniog supports multiple languages and currencies. You can change the language and currency in the settings to match your preferences and the coins you're working with." },
+                "cy": { "question": "A allaf newid yr iaith a'r arian cyfred yn Ceiniog?", "answer": "Gallwch! Mae Ceiniog yn cefnogi amrywiaeth o ieithoedd ac arian cyfred. Gallwch newid yr iaith a'r arian cyfred yn y gosodiadau i gyd-fynd â'ch dewisiadau a'r arian bathol rydych chi'n gweithio gyda nhw." },
+                "es": { "question": "¿Puedo cambiar el idioma y la moneda en Ceiniog?", "answer": "¡Sí! Ceiniog admite varios idiomas y monedas. Puede cambiar el idioma y la moneda en la configuración para que coincidan con sus preferencias y las monedas con las que está trabajando." },
+                "it": { "question": "Posso cambiare la lingua e la valuta in Ceiniog?", "answer": "Sì! Ceiniog supporta più lingue e valute. Puoi cambiare la lingua e la valuta nelle impostazioni per adattarle alle tue preferenze e alle monete con cui stai lavorando." },
+                "fr": { "question": "Puis-je changer la langue et la devise dans Ceiniog ?", "answer": "Oui ! Ceiniog prend en charge plusieurs langues et devises. Vous pouvez changer la langue et la devise dans les paramètres pour correspondre à vos préférences et aux pièces avec lesquelles vous travaillez." },
+                "de": { "question": "Kann ich die Sprache und Währung in Ceiniog ändern?", "answer": "Ja! Ceiniog unterstützt mehrere Sprachen und Währungen. Sie können die Sprache und Währung in den Einstellungen ändern, um sie an Ihre Vorlieben und die Münzen, mit denen Sie arbeiten, anzupassen." }
+            }
+        },
+        {
+            "id": 6,
+            "translations": {
+                "en": { "question": "What currencies does Ceiniog support?", "answer": "Ceiniog supports a variety of currencies, including GBP, EUR, USD, and more. You can switch between currencies in the settings to match your coins." },
+                "cy": { "question": "Pa arian cyfred mae Ceiniog yn eu cefnogi?", "answer": "Mae Ceiniog yn cefnogi amrywiaeth o arian cyfred, gan gynnwys GBP, EUR, USD, a mwy. Gallwch newid rhwng arian cyfred yn y gosodiadau i gyd-fynd â'ch arian bathol." },
+                "es": { "question": "¿Qué monedas admite Ceiniog?", "answer": "Ceiniog admite una variedad de monedas, incluyendo GBP, EUR, USD y más. Puede cambiar entre monedas en la configuración para que coincidan con sus monedas." },
+                "it": { "question": "Quali valute supporta Ceiniog?", "answer": "Ceiniog supporta una varietà di valute, tra cui GBP, EUR, USD e altre. Puoi passare da una valuta all'altra nelle impostazioni per abbinare le tue monete." },
+                "fr": { "question": "Quelles devises Ceiniog prend-il en charge ?", "answer": "Ceiniog prend en charge une variété de devises, notamment GBP, EUR, USD et plus encore. Vous pouvez changer de devise dans les paramètres pour correspondre à vos pièces." },
+                "de": { "question": "Welche Währungen unterstützt Ceiniog?", "answer": "Ceiniog unterstützt eine Vielzahl von Währungen, darunter GBP, EUR, USD und mehr. Sie können zwischen Währungen in den Einstellungen wechseln, um sie an Ihre Münzen anzupassen." }
+            }
+        },
+        {
+            "id": 7,
+            "translations": {
+                "en": { "question": "Can I print my results?", "answer": "Yes, Ceiniog makes it easy to print your results. Just click the 'Print' button, and a printer-friendly version of your results will be generated. You can print on different paper sizes, including thermal printers for receipts, or save the results as a PDF." },
+                "cy": { "question": "A allaf argraffu fy nghanlyniadau?", "answer": "Gallwch, mae Ceiniog yn ei gwneud yn hawdd i argraffu'ch canlyniadau. Cliciwch ar y botwm 'Argraffu', a bydd fersiwn cyfeillgar i'r argraffydd o'ch canlyniadau yn cael ei gynhyrchu." },
+                "es": { "question": "¿Puedo imprimir mis resultados?", "answer": "Sí, Ceiniog facilita la impresión de sus resultados. Simplemente haga clic en el botón 'Imprimir' y se generará una versión apta para impresión de sus resultados." },
+                "it": { "question": "Posso stampare i miei risultati?", "answer": "Sì, Ceiniog rende facile stampare i tuoi risultati. Basta fare clic sul pulsante 'Stampa' e verrà generata una versione stampabile dei tuoi risultati." },
+                "fr": { "question": "Puis-je imprimer mes résultats ?", "answer": "Oui, Ceiniog facilite l'impression de vos résultats. Cliquez simplement sur le bouton 'Imprimer', et une version imprimable de vos résultats sera générée." },
+                "de": { "question": "Kann ich meine Ergebnisse drucken?", "answer": "Ja, Ceiniog macht es einfach, Ihre Ergebnisse zu drucken. Klicken Sie einfach auf die Schaltfläche 'Drucken', und eine druckfreundliche Version Ihrer Ergebnisse wird erstellt." }
+            }
+        },
+        {
+            "id": 8,
+            "translations": {
+                "en": { "question": "Can I print on thermal printers?", "answer": "Yes, Ceiniog supports printing on thermal printers. The print layout is optimized for small paper sizes, making it perfect for receipts or labels." },
+                "cy": { "question": "A allaf argraffu ar argraffwyr thermol?", "answer": "Gallwch, mae Ceiniog yn cefnogi argraffu ar argraffwyr thermol. Mae'r cynllun argraffu wedi'i optimeiddio ar gyfer meintiau papur bach." },
+                "es": { "question": "¿Puedo imprimir en impresoras térmicas?", "answer": "Sí, Ceiniog admite la impresión en impresoras térmicas. El diseño de impresión está optimizado para tamaños de papel pequeños." },
+                "it": { "question": "Posso stampare su stampanti termiche?", "answer": "Sì, Ceiniog supporta la stampa su stampanti termiche. Il layout di stampa è ottimizzato per formati di carta piccoli." },
+                "fr": { "question": "Puis-je imprimer sur des imprimantes thermiques ?", "answer": "Oui, Ceiniog prend en charge l'impression sur des imprimantes thermiques. La mise en page d'impression est optimisée pour les petits formats de papier." },
+                "de": { "question": "Kann ich auf Thermodruckern drucken?", "answer": "Ja, Ceiniog unterstützt das Drucken auf Thermodruckern. Das Drucklayout ist für kleine Papierformate optimiert." }
+            }
+        },
+        {
+            "id": 9,
+            "translations": {
+                "en": { "question": "What if I enter an invalid weight?", "answer": "If you enter an invalid weight (e.g., a negative number or incorrect format), Ceiniog will highlight the invalid input to alert you." },
+                "cy": { "question": "Beth os byddaf yn nodi pwysau annilys?", "answer": "Os byddwch yn nodi pwysau annilys (e.e., rhif negyddol neu fformat anghywir), bydd Ceiniog yn amlygu'r mewnbwn annilys i'ch rhybuddio." },
+                "es": { "question": "¿Qué pasa si ingreso un peso no válido?", "answer": "Si ingresa un peso no válido (por ejemplo, un número negativo o un formato incorrecto), Ceiniog resaltará la entrada no válida para alertarlo." },
+                "it": { "question": "Cosa succede se inserisco un peso non valido?", "answer": "Se inserisci un peso non valido (ad esempio, un numero negativo o un formato errato), Ceiniog evidenzierà l'input non valido per avvisarti." },
+                "fr": { "question": "Que se passe-t-il si je saisis un poids non valide ?", "answer": "Si vous saisissez un poids non valide (par exemple, un nombre négatif ou un format incorrect), Ceiniog mettra en surbrillance l'entrée non valide pour vous alerter." },
+                "de": { "question": "Was passiert, wenn ich ein ungültiges Gewicht eingebe?", "answer": "Wenn Sie ein ungültiges Gewicht eingeben (z. B. eine negative Zahl oder ein falsches Format), hebt Ceiniog die ungültige Eingabe hervor, um Sie zu benachrichtigen." }
+            }
+        },
+        {
+            "id": 10,
+            "translations": {
+                "en": { "question": "Can I save my results?", "answer": "Currently, Ceiniog does not support saving results directly. However, you can manually copy the results, print them, or save them as a PDF for your records." },
+                "cy": { "question": "A allaf gadw fy nghanlyniadau?", "answer": "Ar hyn o bryd, nid yw Ceiniog yn cefnogi cadw canlyniadau'n uniongyrchol. Fodd bynnag, gallwch gopïo'r canlyniadau â llaw, eu hargraffu, neu eu cadw fel PDF ar gyfer eich cofnodion." },
+                "es": { "question": "¿Puedo guardar mis resultados?", "answer": "Actualmente, Ceiniog no admite guardar resultados directamente. Sin embargo, puede copiar manualmente los resultados, imprimirlos o guardarlos como un PDF para sus registros." },
+                "it": { "question": "Posso salvare i miei risultati?", "answer": "Attualmente, Ceiniog non supporta il salvataggio diretto dei risultati. Tuttavia, puoi copiare manualmente i risultati, stamparli o salvarli come PDF per i tuoi archivi." },
+                "fr": { "question": "Puis-je enregistrer mes résultats ?", "answer": "Actuellement, Ceiniog ne prend pas en charge l'enregistrement direct des résultats. Cependant, vous pouvez copier manuellement les résultats, les imprimer ou les enregistrer au format PDF pour vos archives." },
+                "de": { "question": "Kann ich meine Ergebnisse speichern?", "answer": "Derzeit unterstützt Ceiniog das direkte Speichern von Ergebnissen nicht. Sie können die Ergebnisse jedoch manuell kopieren, drucken oder als PDF für Ihre Aufzeichnungen speichern." }
+            }
+        },
+        {
+            "id": 11,
+            "translations": {
+                "en": { "question": "Does Ceiniog work on mobile devices?", "answer": "Yes, Ceiniog is fully responsive and works seamlessly on both desktop and mobile devices. You can use it on the go to calculate coin values anytime, anywhere." },
+                "cy": { "question": "Ydy Ceiniog yn gweithio ar ddyfeisiau symudol?", "answer": "Ydy, mae Ceiniog yn hollol ymatebol ac yn gweithio'n ddiddorol ar gyfrifiaduron bwrdd gwaith a dyfeisiau symudol." },
+                "es": { "question": "¿Funciona Ceiniog en dispositivos móviles?", "answer": "Sí, Ceiniog es totalmente receptivo y funciona sin problemas tanto en dispositivos de escritorio como móviles." },
+                "it": { "question": "Ceiniog funziona su dispositivi mobili?", "answer": "Sì, Ceiniog è completamente reattivo e funziona senza problemi sia su dispositivi desktop che mobili." },
+                "fr": { "question": "Ceiniog fonctionne-t-il sur les appareils mobiles ?", "answer": "Oui, Ceiniog est entièrement réactif et fonctionne parfaitement sur les appareils de bureau et mobiles." },
+                "de": { "question": "Funktioniert Ceiniog auf mobilen Geräten?", "answer": "Ja, Ceiniog ist vollständig reaktionsschnell und funktioniert nahtlos auf Desktop- und Mobilgeräten." }
+            }
+        },
+        {
+            "id": 12,
+            "translations": {
+                "en": { "question": "Is Ceiniog free to use?", "answer": "Yes, Ceiniog is completely free to use. There are no hidden fees or subscriptions—just a simple, easy-to-use tool for calculating coin values." },
+                "cy": { "question": "Ydy Ceiniog yn rhad ac am ddim i'w ddefnyddio?", "answer": "Ydy, mae Ceiniog yn hollol rhad ac am ddim i'w ddefnyddio. Does dim ffioedd cudd na thanysgrifiadau." },
+                "es": { "question": "¿Es Ceiniog gratis?", "answer": "Sí, Ceiniog es completamente gratuito. No hay tarifas ocultas ni suscripciones." },
+                "it": { "question": "Ceiniog è gratuito?", "answer": "Sì, Ceiniog è completamente gratuito. Non ci sono costi nascosti o abbonamenti." },
+                "fr": { "question": "Ceiniog est-il gratuit ?", "answer": "Oui, Ceiniog est entièrement gratuit. Il n'y a pas de frais cachés ni d'abonnements." },
+                "de": { "question": "Ist Ceiniog kostenlos?", "answer": "Ja, Ceiniog ist völlig kostenlos. Es gibt keine versteckten Gebühren oder Abonnements." }
+            }
+        }
+    ];
+
+    // ── Currency configuration ─────────────────────────────────────────────────
+    const currencyConfigs = {
+        GBP: { currencySymbol: "£", subdivisionSymbol: "p", currencyFlag: "gb" },
+        EUR: { currencySymbol: "€", subdivisionSymbol: "c", currencyFlag: "eu" },
+        CAD: { currencySymbol: "$", subdivisionSymbol: "¢", currencyFlag: "ca" },
+        USD: { currencySymbol: "$", subdivisionSymbol: "¢", currencyFlag: "us" }
+    };
+
+    // ── Coin sets ──────────────────────────────────────────────────────────────
+    const coinSets = {
+        GBP: [
+            { value: 0.01, weight: 3.56 }, { value: 0.02, weight: 7.12 },
+            { value: 0.05, weight: 3.25 }, { value: 0.10, weight: 6.50 },
+            { value: 0.20, weight: 5.00 }, { value: 0.50, weight: 8.00 },
+            { value: 1.00, weight: 8.75 }, { value: 2.00, weight: 12.00 }
+        ],
+        EUR: [
+            { value: 0.01, weight: 2.30 }, { value: 0.02, weight: 3.06 },
+            { value: 0.05, weight: 3.92 }, { value: 0.10, weight: 4.10 },
+            { value: 0.20, weight: 5.75 }, { value: 0.50, weight: 7.80 },
+            { value: 1.00, weight: 7.50 }, { value: 2.00, weight: 8.50 }
+        ],
+        CAD: [
+            { value: 0.05, weight: 3.95 }, { value: 0.10, weight: 1.75 },
+            { value: 0.25, weight: 4.40 }, { value: 1.00, weight: 6.27 },
+            { value: 2.00, weight: 6.92 }
+        ],
+        USD: [
+            { value: 0.01, weight: 2.500 }, { value: 0.05, weight: 5.000 },
+            { value: 0.10, weight: 2.268 }, { value: 0.25, weight: 5.670 },
+            { value: 0.50, weight: 11.350 }, { value: 1.00, weight: 8.100 }
+        ]
+    };
+
+    // ── Language data ──────────────────────────────────────────────────────────
+    const languageData = {
+        en: { title: "Coin Counter", inputTitle: "Enter Coin Weight", inputLabel: "Weight (g)", resultsTableHeaderCoin: "Coin", resultsTableHeaderQty: "Qty", resultsTableHeaderValue: "Value", resultsTableTotalValue: "Total Value", overlayTitle: "Coin Count", resultsHeader: "Results", signature1: "Name", signature2: "Signature", date: "Date", langFlag: "gb-eng", settingsOverlayTitle: "Settings", settingsLanguageTitle: "Language", settingsCurrencyTitle: "Currency", clearForm: "Clear" },
+        es: { title: "Contador de Monedas", inputTitle: "Ingrese el peso de la moneda", inputLabel: "Peso (g)", resultsTableHeaderCoin: "Moneda", resultsTableHeaderQty: "Cant.", resultsTableHeaderValue: "Valor", resultsTableTotalValue: "Valor Total", overlayTitle: "Conteo de Monedas", resultsHeader: "Resultados", signature1: "Nombre", signature2: "Firma", date: "Fecha", langFlag: "es", settingsOverlayTitle: "Configuración", settingsLanguageTitle: "Idioma", settingsCurrencyTitle: "Moneda", clearForm: "Borrar" },
+        cy: { title: "Cyfrifydd Arian", inputTitle: "Rhowch Pwysau Arian", inputLabel: "Pwysau (g)", resultsTableHeaderCoin: "Arian", resultsTableHeaderQty: "Nifer", resultsTableHeaderValue: "Gwerth", resultsTableTotalValue: "Cyfanswm Gwerth", overlayTitle: "Cyfrif Arian", resultsHeader: "Canlyniadau", signature1: "Enw", signature2: "Llofnod", date: "Dyddiad", langFlag: "gb-wls", settingsOverlayTitle: "Gosodiadau", settingsLanguageTitle: "Iaith", settingsCurrencyTitle: "Arian", clearForm: "Clirio" },
+        fr: { title: "Compteur de Pièces", inputTitle: "Entrez le Poids des Pièces", inputLabel: "Poids (g)", resultsTableHeaderCoin: "Pièce", resultsTableHeaderQty: "Quantité", resultsTableHeaderValue: "Valeur", resultsTableTotalValue: "Valeur Totale", overlayTitle: "Compte de Pièces", resultsHeader: "Résultats", signature1: "Nom", signature2: "Signature", date: "Date", langFlag: "fr", settingsOverlayTitle: "Paramètres", settingsLanguageTitle: "Langue", settingsCurrencyTitle: "Devise", clearForm: "Effacer" },
+        it: { title: "Contatore di Monete", inputTitle: "Inserisci il Peso delle Monete", inputLabel: "Peso (g)", resultsTableHeaderCoin: "Moneta", resultsTableHeaderQty: "Quantità", resultsTableHeaderValue: "Valore", resultsTableTotalValue: "Valore Totale", overlayTitle: "Conteggio Monete", resultsHeader: "Risultati", signature1: "Nome", signature2: "Firma", date: "Data", langFlag: "it", settingsOverlayTitle: "Impostazioni", settingsLanguageTitle: "Lingua", settingsCurrencyTitle: "Valuta", clearForm: "Cancella" },
+        de: { title: "Münzzähler", inputTitle: "Geben Sie das Münzgewicht ein", inputLabel: "Gewicht (g)", resultsTableHeaderCoin: "Münze", resultsTableHeaderQty: "Anzahl", resultsTableHeaderValue: "Wert", resultsTableTotalValue: "Gesamtwert", overlayTitle: "Münzzählung", resultsHeader: "Ergebnisse", signature1: "Name", signature2: "Unterschrift", date: "Datum", langFlag: "de", settingsOverlayTitle: "Einstellungen", settingsLanguageTitle: "Sprache", settingsCurrencyTitle: "Währung", clearForm: "Löschen" }
+    };
+
+    // ── Global state ───────────────────────────────────────────────────────────
+    let selectedCoinSet = [];
+    let selectedLanguage;
+    let selectedSet;
+    let setKey;
+    let currencyConfig;
+    let coinWeights;
+    let buttonContainer;
+
+    // ── Utilities ──────────────────────────────────────────────────────────────
+    function isMobileDevice() {
+        return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+    }
+
+    function getURLParameter(param, defaultVal) {
+        const urlParams = new URLSearchParams(window.location.search);
+        const paramFromURL = urlParams.get(param);
+        const paramFromStorage = localStorage.getItem(param);
+
+        if (paramFromURL) {
+            localStorage.setItem(param, paramFromURL);
+            return paramFromURL;
+        } else if (paramFromStorage) {
+            return paramFromStorage;
+        }
+        return defaultVal;
+    }
+
+    function calculateCoinQuantity(weight, coinWeight) {
+        return Math.round(weight / coinWeight);
+    }
+
+    function validateInput(input) {
+        const rawValue = input.value.trim();
+        if (rawValue === "") { input.style.backgroundColor = ''; return true; }
+        const isValid = !isNaN(rawValue) && parseFloat(rawValue) >= 0;
+        input.style.backgroundColor = isValid ? '' : 'rgba(255, 0, 0, 0.3)';
+        return isValid;
+    }
+
+    function generateCoinWeights(selectedCoinSet, currencyConfig) {
+        return selectedCoinSet.reduce((acc, coin) => {
+            const key = coin.value < 1
+                ? `${Math.round(coin.value * 100)}${currencyConfig.subdivisionSymbol}`
+                : `${currencyConfig.currencySymbol}${Math.round(coin.value)}`;
+            acc[key] = coin.weight;
+            return acc;
+        }, {});
+    }
+
+    // Text-stroke helper (credit: https://gist.github.com/Langerz82)
+    var applyTextStroke = function (className, color, width) {
+        var r = width;
+        var n = Math.ceil(2 * Math.PI * r);
+        var str = '';
+        for (var i = 0; i < n; i++) {
+            var theta = 2 * Math.PI * i / n;
+            str += (r * Math.cos(theta)) + "px " + (r * Math.sin(theta)) + "px 0 " + color + (i == n - 1 ? "" : ",");
+        }
+        var arr = document.getElementsByClassName(className);
+        for (var dom of arr) { dom.style.textShadow = str; }
+    };
+
+    // ── Language ───────────────────────────────────────────────────────────────
+    function generateLanguageButtons() {
+        const container = document.getElementById("language-buttons");
+        container.innerHTML = "";
+        Object.keys(languageData).forEach(lang => {
+            const btn = document.createElement("button");
+            btn.textContent = lang.toUpperCase();
+            if (lang === selectedLanguage) {
+                btn.className = "language-btn-selected";
+                btn.style.backgroundImage = `url('https://flagcdn.com/h40/${languageData[lang]['langFlag']}.webp')`;
+            } else {
+                btn.className = "language-btn";
+            }
+            btn.onclick = () => { changeLanguage(lang); generateLanguageButtons(); };
+            container.appendChild(btn);
+        });
+        applyTextStroke("language-btn-selected", "#555", 2);
+    }
+
+    function changeLanguage(language) {
+        selectedLanguage = language;
+        updatePageLanguage(language);
+        localStorage.setItem("setLang", language);
+        loadFAQs(language);
+    }
+
+    function updatePageLanguage(lang) {
+        updateResults(lang);
+        updateInputLabels(lang);
+    }
+
+    // ── Results ────────────────────────────────────────────────────────────────
+    function updateResults(lang) {
+        const coinInputs = document.querySelectorAll('.coin-input');
+        let totalValue = 0;
+        let hasInvalidInputs = false;
+
+        coinWeights = generateCoinWeights(selectedCoinSet, currencyConfig);
+
+        const rows = Array.from(coinInputs).map(input => {
+            const coinType = input.dataset.coin;
+            const rawValue = input.value.trim();
+            const isValid = validateInput(input);
+            const weight = rawValue === "" ? 0 : parseFloat(rawValue);
+
+            if (!isValid || weight < 0) {
+                hasInvalidInputs = true;
+                return `<tr style="background-color: rgba(255, 0, 0, 0.3);">
+                            <td>${coinType}</td>
+                            <td><span class="material-symbols-outlined">error</span></td>
+                            <td><span class="material-symbols-outlined">error</span></td>
+                        </tr>`;
+            }
+
+            // Update localised UI text
+            document.getElementById('page-title').textContent         = languageData[lang]['title']                || languageData['en']['title'];
+            document.getElementById('results-title').textContent      = languageData[lang]['resultsHeader']         || languageData['en']['resultsHeader'];
+            document.getElementById('settings-title').textContent     = languageData[lang]['settingsOverlayTitle']  || languageData['en']['settingsOverlayTitle'];
+            document.getElementById('language-section-title').textContent = languageData[lang]['settingsLanguageTitle'] || languageData['en']['settingsLanguageTitle'];
+            document.getElementById('currency-section-title').textContent = languageData[lang]['settingsCurrencyTitle'] || languageData['en']['settingsCurrencyTitle'];
+
+            const quantity = calculateCoinQuantity(weight, coinWeights[coinType]);
+            const value = quantity * (coinType.startsWith(currencyConfig.currencySymbol)
+                ? parseFloat(coinType.slice(1))
+                : parseFloat(coinType) / 100);
+            totalValue += value;
+
+            return `<tr>
+                        <td>${coinType}</td>
+                        <td>${quantity}</td>
+                        <td>${currencyConfig.currencySymbol}${value.toFixed(2)}</td>
+                    </tr>`;
+        }).join('');
+
+        const tableHTML = `
+            <table class="coin-table">
+                <tr>
+                    <th>${languageData[lang]['resultsTableHeaderCoin']}</th>
+                    <th>${languageData[lang]['resultsTableHeaderQty']}</th>
+                    <th>${languageData[lang]['resultsTableHeaderValue']}</th>
+                </tr>
+                ${rows}
+                <tr>
+                    <td colspan="2"><strong>${languageData[lang]['resultsTableTotalValue']}</strong></td>
+                    <td><strong>${currencyConfig.currencySymbol}${totalValue.toFixed(2)}</strong></td>
+                </tr>
+            </table>`;
+
+        document.getElementById('results').innerHTML = tableHTML;
+        hasInvalidInputs ? disablePrintButton() : enablePrintButton();
+    }
+
+    function disablePrintButton() {
+        const btn = document.getElementById('printButton');
+        const icon = document.getElementById('printIcon');
+        btn.onclick = null;
+        icon.textContent = 'print_disabled';
+    }
+
+    function enablePrintButton() {
+        const btn = document.getElementById('printButton');
+        const icon = document.getElementById('printIcon');
+        btn.onclick = showPrintOverlay;
+        icon.textContent = 'print';
+    }
+
+    function clearForm() {
+        document.querySelectorAll('.coin-input').forEach(input => {
+            input.value = '';
+            input.style.backgroundColor = '';
+        });
+        updateResults(selectedLanguage);
+    }
+
+    // ── Input fields ───────────────────────────────────────────────────────────
+    function generateInputFields(coinWeights, coinSet, lang) {
+        selectedSet = coinSet;
+        const langData = languageData[lang] || languageData.en;
+        const inputsContainer = document.getElementById("inputs-container");
+        inputsContainer.innerHTML = "";
+
+        const title = document.createElement("h3");
+        title.id = "inputs-title";
+        title.innerHTML = langData.inputTitle;
+
+        buttonContainer = document.getElementById("currency-buttons");
+        buttonContainer.className = "coin-set-container";
+
+        const titleContainer = document.createElement("div");
+        titleContainer.className = "title-container";
+
+        const coinSetLabel = document.createElement("div");
+        coinSetLabel.className = "coin-set-label";
+        coinSetLabel.textContent = coinSet;
+
+        titleContainer.appendChild(title);
+        buttonContainer.appendChild(coinSetLabel);
+        inputsContainer.appendChild(titleContainer);
+
+        // Language / currency labels
+        const labelsContainer = document.createElement("div");
+        labelsContainer.className = "labels-container";
+
+        const languageLabel = document.createElement("div");
+        languageLabel.className = "language-label";
+        languageLabel.id = "language-label";
+        const langIcon = document.createElement("span");
+        langIcon.className = "material-symbols-outlined";
+        langIcon.textContent = "language";
+        languageLabel.appendChild(langIcon);
+        const langText = document.createElement("span");
+        langText.textContent = lang.toUpperCase();
+        languageLabel.appendChild(langText);
+
+        const currencyLabel = document.createElement("div");
+        currencyLabel.className = "currency-label";
+        const currIcon = document.createElement("span");
+        currIcon.className = "material-symbols-outlined";
+        currIcon.textContent = "universal_currency";
+        currencyLabel.appendChild(currIcon);
+        const currText = document.createElement("span");
+        currText.textContent = coinSet;
+        currencyLabel.appendChild(currText);
+
+        labelsContainer.appendChild(languageLabel);
+        labelsContainer.appendChild(currencyLabel);
+        inputsContainer.appendChild(labelsContainer);
+
+        generateCoinSetButtons(coinSet, coinSets, buttonContainer, coinWeights);
+
+        Object.keys(coinWeights).forEach(coin => {
+            const inputRow = document.createElement("div");
+            inputRow.className = "input-row";
+
+            const label = document.createElement("label");
+            label.setAttribute("for", `${coin}Weight`);
+            label.textContent = `${coin} ${langData.inputLabel}`;
+
+            const input = document.createElement("input");
+            input.className = "coin-input";
+            input.type = isMobileDevice() ? "number" : "text";
+            input.id = `${coin}Weight`;
+            input.dataset.coin = coin;
+
+            inputRow.appendChild(label);
+            inputRow.appendChild(input);
+            inputsContainer.appendChild(inputRow);
+
+            input.addEventListener("input", () => {
+                validateInput(input);
+                updateResults(selectedLanguage);
+            });
+        });
+
+        const clearBtn = document.createElement("button");
+        clearBtn.id = "clear-btn";
+        clearBtn.className = "clear-btn";
+        clearBtn.textContent = langData.clearForm || "Clear";
+        clearBtn.addEventListener("click", clearForm);
+        inputsContainer.appendChild(clearBtn);
+    }
+
+    function updateInputLabels(lang) {
+        const langData = languageData[lang] || languageData.en;
+
+        document.getElementById('inputs-title').textContent = languageData[lang]['inputTitle'] || languageData['en']['inputTitle'];
+
+        const languageLabel = document.getElementById('language-label');
+        languageLabel.textContent = "";
+        const langIcon = document.createElement("span");
+        langIcon.className = "material-symbols-outlined";
+        langIcon.textContent = "language";
+        languageLabel.appendChild(langIcon);
+        const langText = document.createElement("span");
+        langText.textContent = lang.toUpperCase();
+        languageLabel.appendChild(langText);
+
+        document.querySelectorAll(".input-row").forEach(inputRow => {
+            const label = inputRow.querySelector("label");
+            const input = inputRow.querySelector("input");
+            if (label && input) {
+                label.textContent = `${input.dataset.coin} ${langData.inputLabel}`;
+            }
+        });
+
+        const clearBtn = document.getElementById('clear-btn');
+        if (clearBtn) clearBtn.textContent = langData.clearForm || "Clear";
+    }
+
+    // ── Currency set buttons ───────────────────────────────────────────────────
+    function generateCoinSetButtons(coinSet, coinSets, buttonContainer, coinWeights) {
+        buttonContainer.innerHTML = "";
+        Object.keys(coinSets).forEach(key => {
+            const btn = document.createElement("button");
+            btn.textContent = key;
+            btn.className = key === selectedSet ? "coin-set-button-selected" : "coin-set-button";
+            if (btn.className === "coin-set-button-selected") {
+                btn.style.backgroundImage = `url('https://flagcdn.com/h40/${currencyConfigs[key]['currencyFlag']}.webp')`;
+            }
+            btn.onclick = () => {
+                selectedCoinSet = coinSets[key];
+                currencyConfig = currencyConfigs[key];
+                selectedSet = key;
+                generateInputFields(generateCoinWeights(coinSets[key], currencyConfigs[key]), key, selectedLanguage);
+                updateResults(selectedLanguage);
+                localStorage.setItem("coinSet", key);
+            };
+            buttonContainer.appendChild(btn);
+            applyTextStroke("coin-set-button-selected", "#555", 2);
+        });
+    }
+
+    // ── Overlays ───────────────────────────────────────────────────────────────
+    function showPrintOverlay() {
+        const printOverlay = document.getElementById('print-overlay');
+        document.getElementById('overlay-results').innerHTML = document.getElementById('results').innerHTML;
+
+        const lang = selectedLanguage;
+        document.getElementById('overlay-title').textContent = languageData[lang]['title'] || languageData['en']['title'];
+        document.getElementById('signature1-label').textContent = languageData[lang]['signature1'] || languageData['en']['signature1'];
+        document.getElementById('signature2-label').textContent = languageData[lang]['signature2'] || languageData['en']['signature2'];
+
+        const datePrefix = languageData[lang]['date'] || languageData['en']['date'];
+        const now = new Date();
+        document.getElementById('overlay-date').textContent =
+            `${datePrefix}: ${now.toLocaleDateString('en-GB')} ${now.toLocaleTimeString()} (dd/mm/yyyy hh:mm:ss)`;
+
+        printOverlay.style.display = 'flex';
+        setTimeout(() => window.print(), 500);
+    }
+
+    function closePrintOverlay() {
+        document.getElementById('print-overlay').style.display = 'none';
+    }
+
+    function showFaqOverlay() {
+        document.getElementById('faq-overlay').style.display = 'flex';
+    }
+
+    function closeFaqOverlay() {
+        document.getElementById('faq-overlay').style.display = 'none';
+    }
+
+    function showSettingsOverlay() {
+        document.getElementById('settings-overlay').style.display = 'flex';
+    }
+
+    function closeSettingsOverlay() {
+        document.getElementById('settings-overlay').style.display = 'none';
+    }
+
+    // ── FAQ ────────────────────────────────────────────────────────────────────
+    function loadFAQs(lang) {
+        const faqContainer = document.getElementById('faq-content');
+        faqContainer.innerHTML = '';
+        FAQ_DATA.forEach(faq => {
+            const translation = faq.translations[lang] || faq.translations['en'];
+            const faqItem = document.createElement('div');
+            faqItem.className = 'faq-item';
+            faqItem.innerHTML = `
+                <button class="faq-question">
+                    <span>${translation.question}</span>
+                    <span class="material-symbols-outlined">arrow_drop_down</span>
+                </button>
+                <div class="faq-answer">${translation.answer}</div>`;
+            faqContainer.appendChild(faqItem);
+        });
+        addCollapsibleFunctionality();
+    }
+
+    function addCollapsibleFunctionality() {
+        const faqQuestions = document.querySelectorAll('.faq-question');
+        document.querySelectorAll('.faq-answer').forEach(answer => {
+            answer.style.maxHeight = '0';
+            answer.style.padding = '0';
+            answer.style.visibility = 'hidden';
+        });
+        faqQuestions.forEach(question => {
+            question.addEventListener('click', () => {
+                const answer = question.nextElementSibling;
+                faqQuestions.forEach(other => {
+                    if (other !== question) {
+                        other.classList.remove('active');
+                        const otherAnswer = other.nextElementSibling;
+                        otherAnswer.classList.remove('active');
+                        otherAnswer.style.maxHeight = '0';
+                        otherAnswer.style.padding = '0';
+                        otherAnswer.style.visibility = 'hidden';
+                    }
+                });
+                question.classList.toggle('active');
+                answer.classList.toggle('active');
+                if (answer.classList.contains('active')) {
+                    answer.style.maxHeight = answer.scrollHeight * 1.2 + 'px';
+                    answer.style.padding = '10px';
+                    answer.style.visibility = 'visible';
+                } else {
+                    answer.style.maxHeight = '0';
+                    answer.style.padding = '0';
+                    answer.style.visibility = 'hidden';
+                }
+            });
+        });
+    }
+
+    // ── Initialisation ─────────────────────────────────────────────────────────
+    document.addEventListener("DOMContentLoaded", () => {
+        setKey = getURLParameter("coinSet", "GBP");
+        selectedCoinSet = coinSets[setKey] || coinSets.GBP;
+        const selectedCurrencyConfig = currencyConfigs[setKey] || currencyConfigs.GBP;
+        const retrievedLanguage = getURLParameter("setLang", "cy");
+
+        if (typeof selectedLanguage === "undefined") selectedLanguage = retrievedLanguage;
+        if (typeof selectedSet === "undefined") selectedSet = setKey;
+
+        currencyConfig = selectedCurrencyConfig;
+        coinWeights = generateCoinWeights(selectedCoinSet, currencyConfig);
+
+        generateLanguageButtons();
+
+        // Theme toggle
+        const themeToggle = document.getElementById('theme-toggle');
+        const body = document.body;
+        if (localStorage.getItem('theme') === 'dark') {
+            body.classList.add('dark-theme');
+            themeToggle.checked = true;
+        }
+        themeToggle.addEventListener('change', () => {
+            if (themeToggle.checked) {
+                body.classList.add('dark-theme');
+                localStorage.setItem('theme', 'dark');
+            } else {
+                body.classList.remove('dark-theme');
+                localStorage.setItem('theme', 'light');
+            }
+            updateResults(selectedLanguage);
+        });
+
+        // Menu toggle
+        const menuButton = document.getElementById('menu-button');
+        const slideDownPanel = document.getElementById('slide-down-panel');
+        menuButton.addEventListener('click', () => slideDownPanel.classList.toggle('active'));
+        document.addEventListener('click', event => {
+            if (!menuButton.contains(event.target) && !slideDownPanel.contains(event.target)) {
+                slideDownPanel.classList.remove('active');
+            }
+        });
+
+        generateInputFields(coinWeights, setKey, selectedLanguage);
+        updateResults(selectedLanguage);
+        loadFAQs(selectedLanguage);
+    });
+</script>
+</body>
+</html>
