@@ -2,6 +2,8 @@
 
 A lightweight, self-contained coin weight calculator. Enter the weight of your coins and Ceiniog instantly calculates the total value — no app install, no server, no dependencies to manage.
 
+🌐 **[Try it live](https://havard2183.github.io/Ceiniog/)**
+
 ---
 
 ## Features
