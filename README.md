@@ -89,7 +89,7 @@ Ceiniog is nearly fully offline-capable. The two external resources it loads are
 - **Google Material Symbols** font (icons) — via Google Fonts CDN
 - **Flag images** — via [flagcdn.com](https://flagcdn.com), loaded only when the Settings overlay is opened
 
-To make the app fully offline, these can be replaced with:
+To make the app fully offline, these could be replaced with:
 - Inline SVG icons (replacing the Material Symbols `<span>` elements)
 - Unicode flag emoji (replacing the flag images in the language/currency buttons)
 
